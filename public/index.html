@@ -64,8 +64,11 @@
         </div>
         <div class="col-md-6">
           <div id="ideas">
-            <div class="card bg-secondary my-3">
+            <div id="idea" class="card bg-secondary my-3">
               <div class="card-body">
+                <button type="submit" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
                 <p class="lead">
                   créer une application <strong> node JS</strong>
                   <br />
@@ -96,6 +99,8 @@
       // ajout d'un écouteur d'evenements
       document.getElementById("form").addEventListener("submit", sendIdea);
 
+      // document.getElementById("idea").addEventListener("submit", clearIdea);
+
       // handler de l'écouteur d'évenement
       async function sendIdea(e) {
         e.preventDefault();
@@ -117,12 +122,31 @@
         viewer.value = "";
       }
 
+      // async function clearIdea(e) {
+      //   e.preventDefault();
+
+      //   // const text = document.getElementById("idea-text");
+      //   // const tech = document.getElementById("idea-tech");
+      //   // const viewer = document.getElementById("idea-viewer");
+
+      //   // Création d'une nouvelle idée
+      //   app.service("ideas").remove({});
+      //   init();
+      // }
+
       //fonction qui permet de visualiser les idées
       function renderIdea(idea) {
         document.getElementById(
           "ideas"
-        ).innerHTML += `<div class="card bg-secondary my-3">
+        ).innerHTML += `<div id="idea" class="card bg-secondary my-3">
               <div class="card-body">
+                  <button
+                  type="submit"
+                  class="close"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
                 <p class="lead">
                   ${idea.text} <strong>(${idea.tech})</strong>
                   <br />
@@ -139,7 +163,7 @@
         const ideas = await app.service("ideas").find();
 
         // Ajouter les idées existantes à la liste
-        ideas.forEach(renderIdea);
+        ideas.data.forEach(renderIdea);
 
         // Ajouter une nouvelle idée en temps réel
         app.service("ideas").on("created", renderIdea);
